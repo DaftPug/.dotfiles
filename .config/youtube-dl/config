@@ -1,0 +1,7 @@
+# always prefer ffmpeg over avconv
+--prefer-ffmpeg
+
+# Save all videos under Movies directory in your home directory
+-o ~/Nextcloud/Youtube/%(title)s.%(ext)s
+
+-f ~/Nextcloud/Youtube/%(title)s.%(ext)s
