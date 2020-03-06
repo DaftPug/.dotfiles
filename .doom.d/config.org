@@ -1,0 +1,564 @@
+- [[*General Settings][General Settings]]
+  - [[*User settings][User settings]]
+  - [[*Fonts][Fonts]]
+  - Theme
+  - Line-numbers
+  - Folders
+  - Behavior
+  - Keybindings
+  - Flyspell
+  - HOWTO
+- Org
+  - General Org
+  - Org-ref
+  - Agenda
+    -
+  - Capture
+    -
+  - Refile
+  - Minted
+  - Tags
+  - Faces
+  - Keywords
+  - Snippets
+- Languages
+  - Javascript
+
+* General Settings
+** User settings
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Michael Madsen"
+      user-mail-address "mm@pug-works.dk")
+#+END_SRC
+** Fonts
+#+BEGIN_SRC emacs-lisp
+;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
+;; are the three important ones:
+
+;; + `doom-font'
+;; + `doom-variable-pitch-font'
+;; + `doom-big-font' -- used for `doom-big-font-mode'
+
+;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+;; font string. You generally only need these two:
+;; test
+;; (setq doom-font (font-spec :family "Source Code Pro" :size 16)
+
+;;       doom-serif-font (font-spec :family "Source Code Pro")
+;;       +pretty-code-fira-font-name "Fira Code Symbol"
+;;       +pretty-code-hasklig-font-name "Hasklig"
+;;       +pretty-code-iosevka-font-name "Iosevka")
+
+
+;; (setq doom-font (font-spec :family "InputMono" :size 16)
+;;       doom-variable-pitch-font (font-spec :family "InputMono")
+;;       doom-unicode-font (font-spec :family "DejaVu Sans")
+;;       doom-big-font (font-spec :family "InputMono" :size 20))
+;; (setq doom-font (font-spec :family "Attribute Mono" :size 20))
+;; (unless (find-font doom-font)
+(setq doom-font (font-spec :family "FuraCode Nerd Font" :size 16)
+      doom-unicode-font (font-spec :name "DejaVu Sans Mono" :size 16)
+      doom-big-font (font-spec :family "Source Code Pro" :size 26)
+      doom-variable-pitch-font (font-spec :family "Canberra" :size 20))
+;; )
+;; (font-put doom-font :weight 'medium)
+#+END_SRC
+** Theme
+#+BEGIN_SRC emacs-lisp
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. These are the defaults.
+;; (setq doom-theme 'doom-one)
+(setq doom-theme 'doom-acario-dark)
+;; (setq doom-theme 'doom-dracula)
+#+END_SRC
+** Line-numbers
+#+BEGIN_SRC emacs-lisp
+(setq display-line-numbers-type 't)
+#+END_SRC
+** Folders
+#+BEGIN_SRC emacs-lisp
+(setq
+ org-directory "~/Nextcloud/Orgs/"
+ projectile-project-search-path '("~/Nextcloud/Workspace/"))
+#+END_SRC
+** Behavior
+When using C-f & C-b the screen recenters, so the cursor is in the middle of the screen
+#+BEGIN_SRC emacs-lisp
+(advice-add 'evil-scroll-page-down :after (lambda (_) (recenter)))
+(advice-add 'evil-scroll-page-up :after (lambda (_) (recenter)))
+#+END_SRC
+*** Which-key
+#+begin_src emacs-lisp
+(setq which-key-idle-delay 0.1
+      which-key-idle-secondary-delay 0)
+#+end_src
+** Keybindings
+#+BEGIN_SRC emacs-lisp
+;; Escape with 'fd' as in spacemacs
+(setq-default evil-escape-key-sequence "fd")
+;; Muh binding!
+(map!
+ (:leader
+   ;;;;
+   (:prefix "o"
+     :desc "Toggle eshell popop +rightside"                   "o" #'+eshell/split-right
+     :desc "Open elfeed" "z" #'elfeed
+     :desc "Update elfeed feed" "Z" #'elfeed-update
+     )
+   )
+ )
+#+END_SRC
+** Flyspell
+Make flyspell use laze-mode, to make emacs less laggy
+#+BEGIN_SRC emacs-lisp
+(after! flyspell (require 'flyspell-lazy) (flyspell-lazy-mode 1))
+#+END_SRC
+** HOWTO doomemacs
+#+BEGIN_SRC emacs-lisp
+;; Here are some additional functions/macros that could help you configure Doom:
+
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', where Emacs
+;;   looks when you load packages with `require' or `use-package'.
+;; - `map!' for binding new keys
+
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c g k').
+;; This will open documentation for it, including demos of how they are used.
+
+;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
+;; they are implemented.
+#+END_SRC
+* Org
+** General Org
+#+BEGIN_SRC emacs-lisp
+(after! org
+  ;; Pop-rule, so that when I use capture outside of emacs, the capture is in fullscreen - doesn't work 100%
+  ;; (set-popup-rule! "^CAPTURE.*\\.org$" :actions '(+popup-display-buffer-fullframe-fn))
+  ;; Making sure that, when I click a pdf link it splits the view and verticaly opens the PDF in the right windows
+  (setq org-link-frame-setup
+        (quote
+         ((vm . vm-visit-folder-other-frame)
+          (vm-imap . vm-visit-imap-folder-other-frame)
+          (gnus . org-gnus-no-new-news)
+          (file . find-file-other-window)
+          (wl . wl-other-frame))))
+  ;; Making sure that the text in org-mode is wordwrapped
+  (add-hook 'org-mode-hook #'+word-wrap-mode)
+  )
+#+END_SRC
+** Org-ref
+#+begin_src emacs-lisp
+(use-package! org-ref
+  :after org
+  :config
+                                        ; code to run after loading org-ref
+  (setq reftex-default-bibliography '("~/Nextcloud/Uni/bibliography/references.bib"))
+
+  ;; see org-ref for use of these variables
+  (setq org-ref-bibliography-notes "~/Nextcloud/Uni/bibliography/notes.org"
+        org-ref-default-bibliography '("~/Nextcloud/Uni/bibliography/references.bib")
+        org-ref-pdf-directory "~/Nextcloud/Uni/bibliography/bibtex-pdfs/")
+  )
+#+end_src
+** Org-cal
+#+begin_src emacs-lisp
+(use-package! org-gcal
+  :after org
+  :config
+  (setq org-gcal-header-alist '(("planlaegpug@gmail.com" . "#+CATEGORY: personal\n")
+                                ("arakeala@gmail.com" . "#+CATEGORY: anne\n")))
+  (setq org-gcal-client-id "1036704967688-eti8olgfmhmrf53g70561corun6kgvkm.apps.googleusercontent.com"
+        org-gcal-client-secret "gKRKlZNpMHqkmQ5uozyEXWVn"
+        org-gcal-file-alist '(("planlaegpug@gmail.com" .  "~/Nextcloud/Orgs/gcal.org")
+                              ("arakeala@gmail.com" . "~/Nextcloud/Orgs/annecal.org"))
+        )
+  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-fetch) ))
+  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+  (run-with-idle-timer 600 t 'org-gcal-fetch)
+  (run-with-idle-timer 300 t 'org-save-all-org-buffers)
+)
+#+end_src
+** Agenda
+*** Agenda.base
+This is just something i've seen somewhere and added to my config, because it's
+something I want to integrate at some point, but it isn't integrated yet.
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq
+   org-agenda-files `(
+                      ,(concat org-directory "projects.org")
+                      ,(concat org-directory "TheBlackCauldron.org")
+                      ,(concat org-directory "scheduled.org")
+                      ,(concat org-directory "todo.org")
+                      ,(concat org-directory "uni.org")
+                      ,(concat org-directory "plans.org")
+                      ,(concat org-directory "gcal.org")
+                      ,(concat org-directory "annecal.org")
+                      ,(concat org-directory "unsorted.org"))
+   ;; org-default-notes-file (concat org-directory "/inbox.org")
+   ;; org-archive-location (concat org-directory "/archive.org::* Depuis %s")
+   ;; Display tags farther right
+   org-agenda-tags-column -102
+
+   )
+  )
+
+#+END_SRC
+*** Agenda.Super
+#+begin_src emacs-lisp
+(after! org
+  (use-package! org-super-agenda
+    :after org-agenda
+    :init
+    (setq
+     ;; org-agenda-time-grid '((daily today require-timed) "----------------------" ;; nil)
+     org-agenda-time-grid '((daily today require-timed)
+                            (800 1000 1200 1400 1600 1800 2000)
+                            "......"
+                            "----------------")
+     org-agenda-skip-scheduled-if-done t
+     org-agenda-skip-deadline-if-done t
+     org-agenda-include-deadlines t
+     ;; org-agenda-include-diary t
+     org-agenda-block-separator nil
+     org-agenda-compact-blocks t
+     ;; org-agenda-start-with-log-mode t
+     org-agenda-start-day nil ;; i.e. today
+     org-agenda-span 14
+     )
+
+    (setq org-agenda-custom-commands
+          '(("z" "Super Pug view"
+             ((agenda "" ((org-agenda-span 'day)
+                          (org-super-agenda-groups
+                           '((:name "Today"
+                                    :time-grid t
+                                    :date today
+                                    :todo "TODAY"
+                                    :scheduled today
+                                    :order 1)))))
+              (alltodo "" ((org-agenda-overriding-header "")
+                           (org-super-agenda-groups
+                            '((:name "Next to do"
+                                     :todo "NEXT"
+                                     :order 1)
+                              (:name "Working on"
+                                     :tag "@work_on"
+                                     :order 3)
+                              (:name "Plans"
+                                     :todo "PLAN"
+                                     :order 6)
+                              (:name "Due Today"
+                                     :deadline today
+                                     :order 2)
+                              (:name "Due Soon"
+                                     :deadline future
+                                     :order 8)
+                              (:name "Overdue"
+                                     :deadline past
+                                     :order 7)
+                              (:name "Uni stuff"
+                                     :tag "@uni"
+                                     :order 10)
+                              (:name "Home"
+                                     :tag ("@home" "@personal")
+                                     :order 12)
+                              (:name "Projects"
+                                     :todo "PROJECT"
+                                     :order 14)
+                              (:name "Emacs"
+                                     :tag "Emacs"
+                                     :order 13)
+                              (:name "To correspond"
+                                     :tag ("@email" "@phone")
+                                     :order 15)
+                              (:name "To read"
+                                     :tag "@read")))))))))))
+
+#+end_src
+
+** Capture
+*** Captures.Base
+My base captures
+#+BEGIN_SRC emacs-lisp
+(after! org-capture
+  (setq org-capture-templates
+        '(("q" "Quickie")
+          ("n" "New")))
+
+  (add-to-list 'org-capture-templates
+               '("j" "Journal" entry (file+olp+datetree "~/Nextcloud/Orgs/journal.org")
+                 "* %^{Headline} %^G
+%?")
+               )
+  (add-to-list 'org-capture-templates
+               '("p" "Puff" entry (file+olp+datetree "~/Nextcloud/Orgs/puff.org")
+                 "* %^{Headline} %^G
+%?"))
+  )
+          #+END_SRC
+*** Capture.Quickie
+#+BEGIN_SRC emacs-lisp
+(after! org-capture
+  (add-to-list 'org-capture-templates
+               '("qt" "Quick TODO" entry (file+headline "~/Nextcloud/Orgs/unsorted.org" "TODOs")
+                 "* TODO %^{Description}
+:PROPERTIES:
+:CREATED: %U
+:END:"))
+
+  (add-to-list 'org-capture-templates
+               '("qn" "Quick Note" entry (file+headline "~/Nextcloud/Orgs/unsorted.org" "Notes")
+                 "* [%<%a %m-%d %H:%M>] %^{note}
+%?"))
+
+  )
+#+END_SRC
+*** Capture.New
+#+begin_src emacs-lisp
+(after! org-capture
+  (add-to-list 'org-capture-templates
+               '("nt" "New TODO" entry (file+headline "~/Nextcloud/Orgs/unsorted.org" "TODOs")
+                 "* TODO %^{Description} [/] %^G
+:PROPERTIES:
+:CREATED: %U
+:PROJECT: %^{Project}
+:END:
+- [ ] %?"))
+
+  (add-to-list 'org-capture-templates
+               '("nn" "New Note" entry (file+headline "~/Nextcloud/Orgs/unsorted.org" "Notes")
+                 "* %^{Header} %^G
+:PROPERTIES:
+:CREATED: %U
+:PROJECT: %^{Project}
+:END:
+%?"))
+
+  (add-to-list 'org-capture-templates
+               '("np" "New Plan" entry (file "~/Nextcloud/Orgs/plans.org")
+                 "* PLAN %^{Header} [/] %^G
+:PROPERTIES:
+:CREATED: %U
+:PROJECT:
+:ABOUT: %^{Description}
+:END:
+SCHEDULED: %^T\n** TODO %?"))
+
+  (add-to-list 'org-capture-templates
+               '("nP" "New Project" entry (file "~/Nextcloud/Orgs/projects.org")
+                 "* PROJECT %^{Header} %^G
+:PROPERTIES:
+:CREATED: %U
+:PROJECT:
+:CODENAME: %^{Codename}
+:ABOUT: %^{Description}
+:END:\n** Links\n** TODOs\n*** TODO %?"))
+
+  ;; Firefox
+  (add-to-list 'org-capture-templates
+               '("X" "Protocol TODO" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+                 "* TODO %^{TODO} %^G\n  %U"
+                 :prepend t
+                 :kill-buffer t))
+  (add-to-list 'org-capture-templates
+               '("Y" "Protocol Journal" entry (file+olp+datetree "~/Nextcloud/Orgs/journal.org")
+                 "* %? %^G\nEntered on %U\n"
+                 :kill-buffer t))
+  (add-to-list 'org-capture-templates
+               '("Z" "Protocol New Project" entry (file "~/Nextcloud/Orgs/projects.org")
+                 "* PROJ %^{Project name} %^G
+:PROPERTIES:
+:Description: %^{Description}
+:Startdate: %u
+:END:
+"))
+  (add-to-list 'org-capture-templates
+               '("x" "Protocol Capture Link" entry (file+headline "~/Nextcloud/Orgs/linux-notebook.org" "Unsorted links")
+                 "* [[%x][(Link)]] %^{Description} %^G"
+                 ))
+  )
+#+end_src
+*** Capture.Protocol
+#+BEGIN_SRC emacs-lisp :tangle no
+
+(after! org-capture
+  ;; (add-to-list 'org-capture-templates
+  ;;              '("x" "Protocol Capture Link" entry (file+headline "~/Nextcloud/Orgs/unsorted.org" "Links")
+  ;;                "* [[%x][(Link)]] %^{Description} %^G"
+  ;;                ))
+  (add-to-list 'org-capture-templates
+               '("x" "Protocol" entry (file+headline "~/Nextcloud/Orgs/unsorted.org" "Links")
+                 "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+                 )
+               '("L" "Protocol Link" entry (file+headline "~/Nextcloud/Orgs/unsorted.org" "Links")
+                 "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
+                 ))
+  )
+#+END_SRC
+*** Capture.Old
+#+BEGIN_SRC emacs-lisp :tangle no
+;; Setting up my capture templates
+;; (after! org-capture
+;;   (setq org-capture-templates
+;;         '(
+;;           ("t" "TODO" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+;;            "* TODO %^{TODO} %^G \n  %U"
+;;            :prepend t)
+;;           ("s" "Scheduled TODO" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+;;            ;; "* TODO %^{TODO} %^G \nSCHEDULED: %^t\n  %U"
+;;            "* TODO %^{TODO} %^G
+;; :PROPERTIES:
+;; :SCHEDULED: %^T
+;; :CREATED: %U
+;; :END:"
+;;            :prepend t)
+;;           ("d" "Deadline" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+;;            "* TODO %^{TODO} %^G \n  DEADLINE: %^t"
+;;            :prepend t)
+;;           ("P" "New Project" entry (file "~/Nextcloud/Orgs/projects.org")
+;;            "* PROJ %^{Project name} %^G
+;; :PROPERTIES:
+;; :Description: %^{Description}
+;; :Startdate: %u
+;; :END:
+;; "
+;;            )
+;;           ;; ("p" "Priority" entry (file+headline as/gtd "Collect")
+;;           ;;  "* TODO [#A] %? %^G \n  SCHEDULED: %^t")
+;;           ("a" "Appointment" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+;;            "* %? %^G \n  %^t")
+;;           ("l" "Link" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+;;            "* TODO %a %? %^G\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
+;;           ("n" "Note" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+;;            "* %? %^G\n%U" :empty-lines 1)
+;;           ;; Fastsatte captures herunder
+;;           ("j" "Journal" entry (file+olp+datetree "~/Nextcloud/Orgs/journal.org")
+;;            "* %? %^G\nEntered on %U\n")
+;;           ("p" "Puff" entry (file+datetree "~/Nextcloud/Orgs/puff.org")
+;;            "* %? %^G\nEntered on %U\n"))
+;;         )
+;;   ;; Firefox
+;;   (add-to-list 'org-capture-templates
+;;                '("X" "Protocol TODO" entry (file+headline "~/Nextcloud/Orgs/TheBlackCauldron.org" "Boiling")
+;;                  "* TODO %^{TODO} %^G\n  %U"
+;;                  :prepend t
+;;                  :kill-buffer t))
+;;   (add-to-list 'org-capture-templates
+;;                '("Y" "Protocol Journal" entry (file+olp+datetree "~/Nextcloud/Orgs/journal.org")
+;;                  "* %? %^G\nEntered on %U\n"
+;;                  :kill-buffer t))
+;;   (add-to-list 'org-capture-templates
+;;                '("Z" "Protocol New Project" entry (file "~/Nextcloud/Orgs/projects.org")
+;;            "* PROJ %^{Project name} %^G
+;; :PROPERTIES:
+;; :Description: %^{Description}
+;; :Startdate: %u
+;; :END:
+;; "))
+;;   (add-to-list 'org-capture-templates
+;;                '("x" "Protocol Capture Link" entry (file+headline "~/Nextcloud/Orgs/linux-notebook.org" "Unsorted links")
+;;                  "* [[%x][(Link)]] %^{Description} %^G"
+;;                  ))
+;; )
+
+
+#+END_SRC
+*** Capture.Settings
+#+begin_src emacs-lisp
+(after! org-capture
+  (defvar my-org-capture-before-config nil
+    "Window configuration before `org-capture'.")
+
+  (defadvice org-capture (before save-config activate)
+    "Save the window configuration before `org-capture'."
+    (setq my-org-capture-before-config (current-window-configuration)))
+
+  (defun my-org-capture-cleanup ()
+    "Clean up the frame created while capturing via org-protocol."
+    ;; In case we run capture from emacs itself and not an external app,
+    ;; we want to restore the old window config
+    (when my-org-capture-before-config
+      (set-window-configuration my-org-capture-before-config))
+    (-when-let ((&alist 'name name) (frame-parameters))
+      (when (equal name "emacs-capture")
+        (delete-frame))))
+  )
+#+end_src
+** Refile
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-refile-use-outline-path t)
+ ;;;; Refile targets
+  (setq org-refile-targets `((,(concat org-directory "projects.org") :maxlevel . 2)
+                             (,(concat org-directory "TheBlackCauldron.org") :maxlevel . 8)
+                             (,(concat org-directory "scheduled.org") :maxlevel . 3)
+                             (,(concat org-directory "done.org") :maxlevel . 3)
+                             (,(concat org-directory "linux-notebook.org") :maxlevel . 8)
+                             (,(concat org-directory "unsorted.org") :maxlevel . 2)
+                             ))
+  )
+#+END_SRC
+** Minted
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-minted-options
+        '(("bgcolor" "bg")
+          ("breaklines" "true")
+          ))
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  )
+#+END_SRC
+** Tags
+#+BEGIN_SRC emacs-lisp
+(setq org-tags-column -80
+      org-tag-persistent-alist '(("@email" . ?e) ("@write" . ?w) ("@phone" . ?p) ("@configure" . ?C)
+                                 ("@uni" . ?u) ("@personal" . ?l) ("@read" . ?r) ("@watch" . ?W)
+                                 ("@computer" . ?c) ("@bills" . ?b) ("@purchase" . ?P) ("@home" . ?h)
+                                 ("@work_on" . ?v) ("Emacs" . ?E)))
+#+END_SRC
+** Faces
+#+BEGIN_SRC emacs-lisp
+(after! org (setq org-todo-keyword-faces
+      '(("TODO" :foreground "tomato" :weight bold)
+        ("WAITING" :foreground "light sea green" :weight bold)
+        ("STARTED" :foreground "Turquoise" :weight bold)
+        ("ONGOING" :foreground "gold" :weight bold)
+        ("PROJECT" :foreground "SteelBlue" :weight bold)
+        ("NEXT" :foreground "violet red" :weight bold)
+        ("MAYBE" :foreground "plum1 " :weight bold)
+        ("COLD" :foreground "turquoise" :weight bold)
+        ("FREEZING" :foreground "cyan" :weight bold)
+        ("PLAN" :foreground "MediumSpringGreen" :weight bold)
+        ("DONE" :foreground "slategrey" :weight bold))))
+#+END_SRC
+** Keywords
+#+BEGIN_SRC emacs-lisp
+(after! org (setq org-todo-keywords
+      '((sequence "TODO(t)" "WAITING(w!)" "STARTED(s!)" "NEXT(n!)" "ONGOING(o!)" "PROJECT(p!)" "MAYBE(m!)" "COLD(c!)" "FREEZING(f!)" "PLAN(!P)" "|" "DONE(d!)"))))
+#+END_SRC
+** Snippets
+* Languages
+** Javascript
+Make prettier-js-mode load when js2 mode loads, as well as settings for prettier-js
+#+BEGIN_SRC emacs-lisp
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+;;;; Prettier-js settings
+(setq prettier-js-args '(
+  "--trailing-comma" "none"
+  "--bracket-spacing" "true"
+  "--single-quote" "true"
+  "--no-semi" "true"
+  "--jsx-single-quote" "true"
+  "--jsx-bracket-same-line" "true"
+  "--print-width" "100"))
+#+END_SRC
