@@ -1,39 +1,23 @@
-#  ____ _____ 
-# |  _ \_   _|  Derek Taylor (DistroTube)
-# | | | || |    http://www.youtube.com/c/DistroTube
-# | |_| || |    http://www.gitlab.com/dwt1/ 
-# |____/ |_| 
-
 export TERM="st-256color"
 
 # If you come from bash you might have to change your $PATH.
 ## export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-ZSH=/usr/share/oh-my-zsh/
+ZSH=/usr/share/oh-my-zsh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="cobalt2"
-# POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='5'
-# POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='0'
-# POWERLEVEL9K_STATUS_OK_BACKGROUND='8'
-# POWERLEVEL9K_VCS_CLEAN_BACKGROUND='11'
-# POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='8'
-# POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='10'
-# POWERLEVEL9K_VCS_MAX_SYNC_LATENCY_SECONDS='0.05'
-# POWERLEVEL9K_VI_INSERT_MODE_STRING='INSERT' 
-# POWERLEVEL9K_VI_COMMAND_MODE_STRING='NORMAL'﻿
-# # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history time)
-# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+ZSH_THEME="agnoster"
+
 ZLE_RPROMPT_INDENT=0
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
+#: If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
@@ -44,7 +28,7 @@ ZLE_RPROMPT_INDENT=0
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -84,7 +68,10 @@ DISABLE_AUTO_UPDATE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    zsh-autosuggestions
+    npm
+    man
+    colored-man-pages
+    vi-mode
 )
 
 
@@ -92,6 +79,7 @@ plugins=(
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
+export BROWSER="/usr/bin/firefox:$BROWSER"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -99,7 +87,7 @@ plugins=(
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='vim'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -116,8 +104,38 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+
+powerline-daemon -q
+. /usr/lib/python3.8/site-packages/powerline/bindings/zsh/powerline.zsh
+
+
+alias a='fasd -a'        # any
+alias s='fasd -si'       # show / search / select
+alias d='fasd -d'        # directory
+alias f='fasd -f'        # file
+alias sd='fasd -sid'     # interactive directory selection
+alias sf='fasd -sif'     # interactive file selection
+alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+alias zz='fasd_cd -d -i' # cd with interactive selection
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias v='nvim' # quick opening files with vim
+alias m='f -e mpv' # quick opening files with mplayer
+alias o='a -e xdg-open' # quick opening files with xdg-open
+alias vi='nvim'
+alias vim='nvim'
+
+# Arduino-cli aliases
+alias aclicoreupd='arduino-cli core update-index' # update the index of boards
+alias aclicoresrch='arduino-cli core search' # search for available boards
+alias aclicorelst='arduino-cli core list' # Verify installed boards
+alias aclibrdlst='arduino-cli board list' # List connected boards
+alias aclisearch='arduino-cli lib search' # Search through the libraries
+alias acliinstall='arduino-cli lib install' # Install a given library
+
+alias corona='curl https://corona-stats.online\?source\=2\&minimal\=true\&top\=25'
+alias coronadk='curl https://corona-stats.online/dk\?source\=2\&minimal\=true'
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
@@ -125,9 +143,13 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
 fi
 
 source $ZSH/oh-my-zsh.sh
-
-NPM_PACKAGES="${HOME}/.npm-global"
-export PATH="$PATH:$NPM_PACKAGES/bin"
+source /home/puggi/.profile
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+#NPM_PACKAGES="${HOME}/.npm-global"
+#export PATH="$PATH:$NPM_PACKAGES/bin"
 # source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # terminal rickroll!
@@ -158,7 +180,11 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 # # bindkey -v
 # bindkey '^R' history-incremental-search-backward
 
+### SET VIM AS MANPAGER ### 
+export MANPAGER="/bin/sh -c \"col -b | nvim -c 'set ft=man ts=8 nomod nolist noma' -\""
+
 # export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
 # source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # source /home/dt/.config/broot/launcher/bash/br
+eval "$(fasd --init auto)"

@@ -1,0 +1,36 @@
+# Newsboat colour scheme to work with the Nord palette
+# from Arctic Studios - https://github.com/arcticicestudio/nord
+# Tested with the iTerm2 Nord terminal colour scheme
+# https://github.com/arcticicestudio/nord-iterm2
+# though should work with any terminal using the palette
+
+color background          color236   default
+color listnormal          color248   default
+color listnormal_unread   color6     default
+color listfocus           color236   color12 bold
+color listfocus_unread    color226   color12 bold
+color info                color248   color236 bold
+color article             color248   default
+
+# highlights
+highlight article "^(Feed|Link):.*$" color6 default bold
+highlight article "^(Title|Date|Author):.*$" color6 default bold
+highlight article "https?://[^ ]+" color10 default underline
+highlight article "\\[[0-9]+\\]" color10 default bold
+highlight article "\\[image\\ [0-9]+\\]" color10 default bold
+highlight feedlist "^─.*$" color6 color236 bold
+
+auto-reload yes
+
+external-url-viewer "urlscan -dc -r 'linkhandler {}'"
+
+bind-key U show-urls
+
+browser linkhandler
+macro , open-in-browser
+macro t set browser "qndl"; open-in-browser ; set browser linkhandler
+macro a set browser "tsp youtube-dl --add-metadata -xic -f bestaudio/best"; open-in-browser ; set browser linkhandler
+macro v set browser "setsid nohup mpv"; open-in-browser ; set browser linkhandler
+# macro w set browser "lynx"; open-in-browser ; set browser linkhandler
+# macro p set browser "dmenuhandler"; open-in-browser ; set browser linkhandler
+# macro c set browser "xsel -b <<<" ; open-in-browser ; set browser linkhandler
