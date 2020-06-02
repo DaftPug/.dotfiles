@@ -1,0 +1,28 @@
+IMAPAccount itu
+# Address to connect to
+Host 127.0.0.1
+Port 1143
+User mrma@itu.dk
+PassCmd "pass itu/email"
+SSLType None
+AuthMechs LOGIN
+
+IMAPStore itu-remote
+Account itu
+
+MaildirStore itu-local
+# Copy folder hierarchy
+Subfolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/itu/
+Inbox ~/.mail/itu/Inbox
+
+Channel itu
+Master :itu-remote:
+Slave :itu-local:
+# Include everything
+Patterns *
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Save the synchronization state files in the relevant directory
+SyncState *
