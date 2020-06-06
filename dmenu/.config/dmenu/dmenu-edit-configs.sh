@@ -10,6 +10,7 @@ qutebrowser
 sxhkd
 xresources
 zsh
+lazygit
 quit")
 
 choice=$(echo -e "${options[@]}" | dmenu -i -p 'Edit config file: ')
@@ -47,6 +48,9 @@ case "$choice" in
 	;;
 	zsh)
 		choice="$HOME/.zshrc"
+	;;
+	lazygit)
+		choice="$HOME/.config/jesseduffield/lazygit/config.yml"
 	;;
 	*)
 		exit 1

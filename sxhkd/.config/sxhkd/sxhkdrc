@@ -180,17 +180,17 @@ super + alt + y
 alt + ctrl + e
    /home/puggi/.config/dmenu/dmenu-edit-configs.sh
 # surfraw
-alt + ctrl + s
-   /home/dt/.dmenu/dmenu-surfraw.sh
+# alt + ctrl + s
+#   /home/dt/.dmenu/dmenu-surfraw.sh
 # common system montoring programs
-alt + ctrl + m
-   /home/dt/.dmenu/dmenu-sysmon.sh
+# alt + ctrl + m
+#   /home/dt/.dmenu/dmenu-sysmon.sh
 # passmenu
-alt + ctrl + p
-   exec passmenu
+# alt + ctrl + p
+#   exec passmenu
 # reddio Reddit viewer
-alt + ctrl + r
-   /home/dt/.dmenu/dmenu-reddio.sh
+# alt + ctrl + r
+#   /home/dt/.dmenu/dmenu-reddio.sh
 # stock trading programs
-alt + ctrl + t
-   /home/dt/.dmenu/dmenu-trading.sh
+# alt + ctrl + t
+#   /home/dt/.dmenu/dmenu-trading.sh
