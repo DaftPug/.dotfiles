@@ -9,7 +9,7 @@ xrdb merge .Xresources &
 ##while xfdesktop can also give applications menu and icons on desktop.
 ##It uses a lot more resources however. It you enable it you may want to
 ##adjust ~/scripts/MouseLaunch to use xfdesktops app menu.
-nitrogen --restore &
+# nitrogen --restore &
 #xfdesktop -D &
 ##compositing. Required for shadows, transparency and stuff.
 ##Reduces flicker. Disabling saves resources.
@@ -31,8 +31,8 @@ fc-cache -fv &
 #lxpolkit &
 ##Daemon mode for filemanager makes mounting volumes easier
 #thunar --daemon &
-spacefm -d &
-#pcmanfm -d &
+# spacefm -d &
+pcmanfm -d &
 ##powersaving options
 xset s off &
 xset s noblank &
@@ -49,4 +49,4 @@ xbacklight -set 15 &
 #sleep 2s && stalonetray --dockapp-mode simple &
 nextcloud &
 blueman-applet &
-nm-applet &
+# nm-applet &

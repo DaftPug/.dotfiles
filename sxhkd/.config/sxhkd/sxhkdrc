@@ -123,15 +123,15 @@ super + d
 # super + F1
 #   firefox-developer-edition
 super + {_,shift + }F1
-      {qutebrowser, firefox-developer-edition}
+      {qutebrowser, firefox}
 
 # launch nvim
 super + {_,shift + }F2
     {kitty -e nvim, emacs}
 
-# launch spacefm
+# launch pcmanfm
 super + F3
-	spacefm
+	pcmanfm
 
 # launch ncpamixer
 super + alt + a

@@ -6,7 +6,10 @@
 
 # feh --recursive --randomize --auto-zoom --geometry 2560x1440+1920+0  --slideshow-delay 5 -B black --action "gvfs-trash '%f'" ~/Pictures
 
-my_laptop_external_monitor=$(xrandr --query | grep 'DisplayPort-0')
-if [[ $my_laptop_external_monitor = *connected* ]]; then
-    xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output DisplayPort-0 --mode 2560x1440 --rotate normal --right-of eDP
-fi
+# my_laptop_external_monitor=$(xrandr --query | grep 'DisplayPort-0')
+# if [[ $my_laptop_external_monitor = *connected* ]]; then
+#     xrandr --output HDMI-A-0 --mode 1920x1080 --rate 144.00 --rotate normal --output DisplayPort-0 --primary --mode 2560x1440 --rotate normal --right-of HDMI-A-0
+# fi
+
+
+xrandr --output HDMI-A-0 --mode 1920x1080 --rate 144.00 --rotate normal --output DisplayPort-0 --primary --mode 2560x1440 --rotate normal --right-of HDMI-A-0

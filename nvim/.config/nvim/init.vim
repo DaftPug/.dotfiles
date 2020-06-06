@@ -90,7 +90,7 @@
 
     " The fastest (Neo)Vim plugin for asynchronously displaying the colours in the file
     " Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
-    Plug 'norcalli/nvim-colorizer.lua'
+    " Plug 'norcalli/nvim-colorizer.lua'
 
     " Muliple cursor support
     Plug 'terryma/vim-multiple-cursors'
@@ -133,7 +133,7 @@
 
     " Enable colorizer for every filetype
     " lua require'colorizer'.setup()
-    autocmd FileType * lua require'colorizer'.setup()
+    " autocmd FileType * lua require'colorizer'.setup()
 
     " Fix tex file type set
     autocmd BufRead, BufNewFile *.tex set filetype=tex
@@ -774,7 +774,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
