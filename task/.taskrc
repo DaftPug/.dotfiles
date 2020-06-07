@@ -13,6 +13,17 @@
 # Files
 data.location=~/.task
 
+# By default, the week starts on Sunday, let's fix that.
+weekstart=monday
+
+# Make searches case insensitive, personal preference
+search.case.sensitive=no
+
+# Daily burndown
+alias.burndown=burndown.daily
+
+active.indicator=>
+
 # Color theme (uncomment one to use)
 #include /usr/share/doc/task/rc/light-16.theme
 #include /usr/share/doc/task/rc/light-256.theme
@@ -29,4 +40,4 @@ data.location=~/.task
 #include /usr/share/doc/task/rc/solarized-light-256.theme
 #include /usr/share/doc/task/rc/no-color.theme
 
-task config urgency.user.tag.problem.coefficient 4.5
+#task config urgency.user.tag.problem.coefficient 4.5

@@ -59,6 +59,7 @@ bspc config urgent_border_color 	      "#EF5350"
 
 
 /home/puggi/.config/polybar/launch.sh &
+# xsetroot -cursor_name left_ptr &
 
 #polybar hidden when fullscreen for vlc, youtube, mpv ...
 #find out the name of your monitor with xrandr
