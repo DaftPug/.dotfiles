@@ -110,6 +110,12 @@ alias coronadk='curl https://corona-stats.online/dk\?source\=2\&minimal\=true'
 alias mbsync="mbsync -c \"/home/puggi/.config/isync/mbsyncrc\""
 alias imapfilter="imapfilter -c \"/home/puggi/.config/imapfilter/config.lua\""
 
+alias itu_ssh="nvim sftp://itu_server//import/home1/mrma/public_html/"
+alias itu_dl="rsync -avhe ssh mrma@ssh.itu.dk:/import/home1/mrma/public_html/ ~/Projects/ITU\ Web/"
+alias itu_ul="rsync -avhe ssh ~/Projects/ITU\ Web/ mrma@ssh.itu.dk:/import/home1/mrma/public_html/"
+alias itu_web="cd ~/Projects/ITU\ Web/"
+
+
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
