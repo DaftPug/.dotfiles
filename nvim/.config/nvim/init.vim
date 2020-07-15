@@ -124,6 +124,9 @@
     " The interactive scratchpad for hackers. Look @ github for further
     " configuration, seems interesting
     Plug 'metakirby5/codi.vim'
+
+    " For SFTP connections
+    Plug 'hesselbom/vim-hsftp'
   " }}}
 
   call plug#end()
