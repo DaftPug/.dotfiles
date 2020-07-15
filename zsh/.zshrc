@@ -123,6 +123,7 @@ alias mbsync="mbsync -c \"/home/puggi/.config/isync/mbsyncrc\""
 alias imapfilter="imapfilter -c \"/home/puggi/.config/imapfilter/config.lua\""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # taskwarrior aliases
 ## Linux
 alias twlx='task add project:Linux'
@@ -140,11 +141,16 @@ alias tb='task burndown'
 # raspberry pi aliases
 alias pi-ssh='ssh pi@192.168.0.200'
 =======
+=======
+>>>>>>> 1c0a6272fb5f1dfe9160cf4c2a281a4ad9e380e6
 alias itu_ssh="nvim sftp://itu_server//import/home1/mrma/public_html/"
 alias itu_dl="rsync -avhe ssh mrma@ssh.itu.dk:/import/home1/mrma/public_html/ ~/Projects/ITU\ Web/"
 alias itu_ul="rsync -avhe ssh ~/Projects/ITU\ Web/ mrma@ssh.itu.dk:/import/home1/mrma/public_html/"
 alias itu_web="cd ~/Projects/ITU\ Web/"
 
+<<<<<<< HEAD
+>>>>>>> 1c0a6272fb5f1dfe9160cf4c2a281a4ad9e380e6
+=======
 >>>>>>> 1c0a6272fb5f1dfe9160cf4c2a281a4ad9e380e6
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
