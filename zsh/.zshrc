@@ -110,6 +110,23 @@ alias coronadk='curl https://corona-stats.online/dk\?source\=2\&minimal\=true'
 alias mbsync="mbsync -c \"/home/puggi/.config/isync/mbsyncrc\""
 alias imapfilter="imapfilter -c \"/home/puggi/.config/imapfilter/config.lua\""
 
+# taskwarrior aliases
+## Linux
+alias twlx='task add project:Linux'
+alias twtwlx='task add project:Linux +tw'
+
+## ITU
+alias twitu='task add project:ITU'
+alias twex='task add project:ITU +exam'
+alias twexdi='task add project:ITU +exam +DI'
+
+## General
+alias tl='task list'
+alias tb='task burndown'
+
+# raspberry pi aliases
+alias pi-ssh='ssh pi@192.168.0.200'
+
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR

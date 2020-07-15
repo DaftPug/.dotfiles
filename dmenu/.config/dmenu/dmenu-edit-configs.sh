@@ -11,6 +11,8 @@ sxhkd
 xresources
 zsh
 lazygit
+dmenu
+conky
 quit")
 
 choice=$(echo -e "${options[@]}" | dmenu -i -p 'Edit config file: ')
@@ -51,6 +53,12 @@ case "$choice" in
 	;;
 	lazygit)
 		choice="$HOME/.config/jesseduffield/lazygit/config.yml"
+	;;
+        dmenu)
+		choice="$HOME/.config/dmenu/dmenu-edit-configs.sh"
+	;;
+        conky)
+		choice="$HOME/.config/conky/conky.conf"
 	;;
 	*)
 		exit 1
