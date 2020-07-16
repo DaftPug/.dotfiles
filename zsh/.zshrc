@@ -145,6 +145,8 @@ alias itu_dl="rsync -avhe ssh itu_server:/import/home1/mrma/public_html/ ~/Proje
 alias itu_ul="rsync -avhe ssh ~/Projects/ITU\ Web/ itu_server:/import/home1/mrma/public_html/"
 alias itu_web="cd ~/Projects/ITU\ Web/"
 
+eval $(ssh-agent)
+
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
