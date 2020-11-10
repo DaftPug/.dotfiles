@@ -586,6 +586,9 @@ nnoremap <leader>ts :split term://zsh<CR>
 " --S-mappings
 nnoremap <leader>ss :Snippets<CR>
 
+" turn on en_gb spellcheck
+nnoremap <leader>sgb :setlocal spell spelllang=en_gb<CR>
+
 " QuickScope toggle
 nnoremap <leader>sc :QuickScopeToggle<CR>
 xnoremap <leader>sc :QuickScopeToggle<CR>

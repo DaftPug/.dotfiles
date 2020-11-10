@@ -146,6 +146,7 @@ alias itu_ul="rsync -avhe ssh ~/Projects/ITU\ Web/ itu_server:/import/home1/mrma
 alias itu_web="cd ~/Projects/ITU\ Web/"
 
 # eval $(ssh-agent)
+eval `keychain --eval --agents ssh --inherit any id_rsa`
 
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
